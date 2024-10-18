@@ -1,0 +1,3 @@
+﻿Zde je třeba nahrát dva certiifkáty:
+ceritifkat_saml.pfx - viz Saml2:CertificateFilePath ve web.config
+certifikat_adu.pem  - viz Nia:AduCertificateFilePath ve web.config

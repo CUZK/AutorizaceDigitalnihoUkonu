@@ -1,0 +1,47 @@
+﻿@model string[]
+@{
+    ViewBag.Title = "Výběr způsobu autorizace";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <h2 class="error">Chyba (viz NIA ResponseBodyXML)</h2>
+            @Html.ValidationSummary()
+        }
+        else
+        {
+            using (Html.BeginForm("Authorization", "Nia", FormMethod.Post))
+            {
+                <p>
+                    Možné způsoby autorizace:
+                    <ul>
+                        <li>Autentizací (přihlášením), tato jediná je dostupná vždy</li>
+                        <li>SMS kódem </li>
+                        <li>FCM kódem (kód z Mobilního klíče) </li>
+                    </ul>
+                    Zobrazí se pouze ty způsoby, které jsou u uživatele k dispozici.
+                </p>
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="idUkonu" name="idUkonu" value="@ViewBag.IdUkonu" />
+                <p>
+                    <label for="zpusobAutorizace">Způsob autorizace:</label>
+                    <select id="zpusobAutorizace" name="zpusobAutorizace">
+                        @foreach (var zpusobAutorizace in Model)
+                        {
+                            <option>@zpusobAutorizace</option>
+                        }
+                    </select>
+                </p>
+                <p>
+                    <input type="submit" value="Odeslat" />
+                </p>
+            }
+        }
+        <br />
+        @Html.Partial("_DevOutputs")
+    </div>
+</div>

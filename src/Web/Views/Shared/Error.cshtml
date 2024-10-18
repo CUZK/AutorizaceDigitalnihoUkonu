@@ -1,0 +1,14 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>ČÚZK - Chyba</title>
+</head>
+<body>
+    <hgroup>
+        <h1>Chyba</h1>
+        <h2 class="error">@Html.Raw(ViewData["ErrorMessage"].ToString().Replace(Environment.NewLine,"<br/>"))</h2>
+    </hgroup>
+</body>
+</html>

@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Parametry autorizace";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("SelectAuthorization", "Nia", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <div>
+                <label for="nazevDigitalnihoUkonu" style="margin:0;">Název digitálního úkonu (max 100 znaků):</label>
+                <br/>
+                <input type="text" id="nazevDigitalnihoUkonu" name="nazevDigitalnihoUkonu" style="width:50em"  maxlength="100" required autofocus/>
+            </div>
+            <br/>
+            <div>
+                <label for="popisDigitalnihoUkonu" style="margin:0;">Popis digitálního úkonu (max 200 znaků):</label>
+                <br/>
+                <input type="text" id="popisDigitalnihoUkonu" name="popisDigitalnihoUkonu" style="width:50em" maxlength="200" required />
+            </div>
+            <br/>
+            <div>
+                <label for="soubor" style="margin:0;">Soubor s digitálním úkonem, který se má autorizovat (jeden soubor se dá autorizovat opakovaně):</label>
+                <br/>
+                <input type="file" id="soubor" name="soubor" required/>
+            </div>
+            <br/>
+            <div>
+                <input type="submit" value="Odeslat"/>
+            </div>
+        }
+        
+        <hr/>
+
+        <h2>User's claims</h2>
+        @foreach (var claim in System.Security.Claims.ClaimsPrincipal.Current.Claims)
+        {
+            <strong>@claim.Type</strong>
+            <br/>
+            @claim.Value
+            <br/>
+            <br/>
+        }
+    </div>
+</div>

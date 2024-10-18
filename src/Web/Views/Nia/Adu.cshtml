@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Výsledek ověření autorizace";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <h2 class="error">Chyba (viz NIA ResponseBodyXML)</h2>
+            @Html.ValidationSummary()
+        }
+        else
+        {
+            <h2 class="ok">Autorizace souboru provedena (viz VysledekOvereni NIA ResponseBodyXML)</h2>
+
+            <p>
+                Stránka v NIA pro ověření autorizace: <a href="https://twww.identitaobcana.cz/Autorizace/OvereniUkonu" target="_blank">https://twww.identitaobcana.cz/Autorizace/OvereniUkonu</a>
+            </p>
+        }
+        <br />
+        @Html.Partial("_DevOutputs")
+    </div>
+</div>

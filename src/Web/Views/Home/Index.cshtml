@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Úvod";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Prototyp autorizace digitálního úkonu</h2>
+        <p>
+            Autorizaci může provádět pouze přihlášený uživatel. Pokud není přihlášen, tak se po kliknutí na odkaz na @Html.ActionLink("Provedení autorizace", "Index", "Nia") nejprve vyvolá přihlášení.
+        </p>
+        <p>
+            Pro autorizaci je třeba vyplnit formulář s údaji o názvu a popisu digitálního úkonu a je třeba vybrat soubor, který má být autorizován.
+        </p>
+        <p>
+            Testovací NIA je občas náladová, pokud něco nejede, zkuste to znovu 🙂
+        </p>
+    </div>
+</div>

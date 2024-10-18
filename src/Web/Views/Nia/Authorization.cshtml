@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Autorizace";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<div class="row">
+    <div class="col-md-12">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <h2 class="error">Chyba (viz NIA ResponseBodyXML)</h2>
+            @Html.ValidationSummary()
+        }
+        else
+        {
+            using (Html.BeginForm("ConfirmAuthorization", "Nia", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="idUkonu" name="idUkonu" value="@ViewBag.IdUkonu" />
+                <p>
+                    <label for="kod">Kód z SMS nebo mobilního klíče:</label>
+                    <input type="number" id="kod" name="kod" autofocus maxlength="10"  />
+                </p>
+                <p>
+                    <input type="submit" value="Odeslat" />
+                </p>
+            }
+        }
+        <br />
+        @Html.Partial("_DevOutputs")
+    </div>
+</div>
