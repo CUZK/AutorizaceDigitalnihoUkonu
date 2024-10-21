@@ -1,6 +1,8 @@
 # Prototyp pro autorizaci digitálního úkonu
 
-Jedná se o pouze prototyp, který slouží pro pokusy atd. a rozhodně není ukázkou, jak programovat 😉
+Jedná se o pouze rychlý prototyp, který rozhodně není ukázkou, jak programovat 😉
+
+Co autorizace digitáního úkonu, včetně možného způsobu implementace, je popsáno v [článku na Lupě](https://www.lupa.cz/clanky/jak-provadet-autorizaci-digitalniho-ukonu-u-online-podani/).
 
 ## Základní popis
 ADU je zkratka pro **A**utorizaci **D**igitálního **Ú**konu.
@@ -11,7 +13,7 @@ Projekt je ve Visual Studiu 2022.
 
 Po stažení je třeba spustit restore Nuget package (např. pravé tlačítko na Solution a "Restore NuGet Packages"). 
 
-Aplikace využívá Windows Identity Foundation dostupný pro .NET Framework (NIA ho zřejmě podle jejích odpovědí používá také)
+Aplikace využívá Windows Identity Foundation dostupný pro .NET Framework (NIA ho zřejmě podle vracených odpovědí používá také)
 a ITfoxtec Identity SAML2 pro práci se SAML.
 
 Prakticky veškerá logika je umístěna přímo v [src/Web/Controllers/NiaController.cs](src/Web/Controllers/NiaController.cs), 
@@ -23,7 +25,7 @@ Aplikace potřebuje přístup na internet pro volání služeb NIA na a ověřov
 
 Aplikace potřebuje běžet s aplikačním poolem nastaveným na *"Load user profile = true"* (kvůli DPAPI). 
 
-Na některých konfiguracích je třeba v konfiguraci aplikace v [src/Web/Web.config](src/Web/web.config) v elementu **appSettings**:
+Na některých konfiguracích je třeba v konfiguraci aplikace v [src/Web/Web.config](src/Web/Web.config) v elementu **appSettings**:
 ~~~xml
 <add key="Saml2:X509KeyStorageFlags" value="DefaultKeySet" />
 ~~~
@@ -53,7 +55,7 @@ Pro testování musí být vytvořen v testovací NIA SeP, ve které bude aktivo
 
 ## Parametry SeP v NIA
 Adresa vyplněná v poli "Unikátní URL adresa zabezpečené části vašeho webu" se musí shodovat s adresou uvedenou 
-v konfiguraci aplikace v [src/Web/Web.config](src/Web/web.config) v elementu **appSettings**:
+v konfiguraci aplikace v [src/Web/Web.config](src/Web/Web.config) v elementu **appSettings**:
 ~~~xml
 <add key="Saml2:Issuer" value="https://(FQDN)/nia/" />
 ~~~
@@ -77,13 +79,13 @@ https://(FQDN)/nia/adu
 V profilu SeP může být nastaveno více návratových url adres, na které má být uživatel v případě autorizace přihlášením, po jejím provedení,
 přesměrován zpět k SeP. Na kterou z nich se má uživatel vrátit, se zasílá v rámci requestu, kterým se uživatel přesměruje do NIA.
 
-Hodnotu je třeba nastavit v [src/Web/Web.config](src/Web/web.config) v elementu **appSettings**:
+Hodnotu je třeba nastavit v [src/Web/Web.config](src/Web/Web.config) v elementu **appSettings**:
 ~~~xml
 <add key="Nia:ReturnUrl" value="https://(FQDN)/nia/adu" />
 ~~~
 
 ## Konfigurace aplikace
-Konfigurace aplikace se provádí v souboru [src/Web/Web.config](src/Web/web.config), parametry jsou okomentovány přímo v elementu **appSettings**.
+Konfigurace aplikace se provádí v souboru [src/Web/Web.config](src/Web/Web.config), parametry jsou okomentovány přímo v elementu **appSettings**.
 
 ### Certifikát pro SAML
 V konfiguraci je na něj cesta v 
@@ -109,7 +111,7 @@ Certifikát musí být ve formátu PEM/CER (Base64 encoded X.509) a musí mít p
 **K certifikátu nepotřebujete privátní klíč**, nic se pomocí něj nepodepisuje. Zřejmě měli autoři s certifikátem původně
 jiný záměr, který se nerealizoval, nebo to mají nachystané na řešení do budoucna. 
 
-Pokud není po ruce testovací certifikát, tak se odvážnější jedinci mohou pro účely testování porozhlédnou po internetu, kvalifikovaných
+Pokud není po ruce testovací certifikát, tak se odvážnější jedinci mohou pro účely testování porozhlédnout po internetu, kvalifikovaných
 i komerčních certifikátů se na něm válejí tuny u vydávajících CA nebo v podepsaných PDF 🙂
 
 ## ActAs token
@@ -131,6 +133,6 @@ což je jen jiný název pro BSI přihlášeného uživatele, a *CertifikatHashB
 -  do base64 se musí načítat a převádět **celý soubor** (včetně řádků „-----BEGIN CERTIFICATE----- a -----END CERTIFICATE----- ") který
    byl nahrán do NIA do konfigurace SeP pro autorizaci digitálního úkonu, nestačí jen posílat base64 část, která je uvedena v PEM/CER.
 -  musí se jednat o **binárně shodný soubor** s tím, co je vložen do NIA. Pokud se do NIA nahraje soubor s CRLF a v rámci autorizace se bude
-   zasílat sice významově úplně stejný soubor (stejný certifikát v PEM), ale s LF, tak to fungovat nebude. Tzn. soubor pro jistotu načítat binárně.
+   zasílat sice významově úplně stejný soubor (stejný certifikát v PEM), ale např. s LF, tak to fungovat nebude. 
  
 Hash souboru digitálního úkonu, který se předává do NIA, je SHA-256, v dokumentaci to není uvedeno.
